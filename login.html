@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh;background: #c2a579 url("images/loginbg.jpeg") no-repeat center center/cover; }
+    .box { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); width: 300px; text-align: center; }
+    h2 { margin-bottom: 20px; }
+    input { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
+    button { width: 100%; padding: 10px; margin-top: 10px; background: #4b2e15; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #2c1a0e; }
+    .toggle { margin-top: 15px; cursor: pointer; color: #007bff; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 id="formTitle">Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="actionBtn" onclick="handleAction()">Login</button>
+    <p class="toggle" onclick="toggleForm()">Don’t have an account? Register</p>
+  </div>
+
+  <script>
+    let isLogin = true; // switch between login and register
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("formTitle").textContent = isLogin ? "Login" : "Register";
+      document.getElementById("actionBtn").textContent = isLogin ? "Login" : "Register";
+      document.querySelector(".toggle").textContent = isLogin
+        ? "Don’t have an account? Register"
+        : "Already have an account? Login";
+    }
+
+    function handleAction() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    
+    if (!username || !password) {
+        alert("Please enter all fields.");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (isLogin) {
+        // LOGIN
+        const user = users.find(u => u.username === username && u.password === password);
+        if (user) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("currentUser", username);
+
+            if (username.toLowerCase() === "admin") {
+                window.location.href = "./admin-dashboard.html"; // safer relative path
+            } else {
+                window.location.href = "./dashboard.html"; // safer relative path
+            }
+        } else {
+            alert("Invalid username or password.");
+        }
+    } else {
+        // REGISTER
+        if (users.some(u => u.username === username)) {
+            alert("Username already exists. Please choose another.");
+            return;
+        }
+        // Save new user
+        users.push({ username, password });
+        localStorage.setItem("users", JSON.stringify(users));
+
+        // Optional: log in user immediately after registration
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("currentUser", username);
+
+        alert("Registration successful! You are now logged in.");
+
+        // Redirect after registration
+        if (username.toLowerCase() === "admin") {
+            window.location.href = "./admin-dashboard.html";
+        } else {
+            window.location.href = "./index.html";
+        }
+    }
+}
+
+  </script>
+</body>
+</html>

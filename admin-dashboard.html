@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+  body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; }
+  .container { display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background: #2c1a0e;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .sidebar h2 { margin-top: 0; font-size: 22px; }
+  .sidebar p { margin: 8px 0; font-size: 16px; }
+  .sidebar button, .sidebar .nav-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .sidebar button:hover, .sidebar .nav-btn:hover { background: #444; }
+
+  /* Main content */
+  .main { flex: 1; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+
+  h1 { margin-top: 0; }
+
+  /* Cards & sections */
+  .card { background: white; padding: 15px; margin: 10px 0; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  img { max-width: 120px; margin-bottom: 10px; }
+  .card img {
+  width: 100%;
+  height: 180px;       /* fixed height for uniform cards */
+  object-fit: cover;   /* scales/crops image to fit nicely */
+  border-radius: 6px;
+}
+
+
+  .approve { background: green; color: white; }
+  .reject { background: red; color: white; }
+  .edit { background: orange; color: white; }
+  .delete { background: darkred; color: white; }
+
+  .add-form { background: #eee; padding: 10px; margin-top: 10px; border-radius: 6px; }
+
+  /* Gallery for user uploads in admin */
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .gallery-item { background: #fff; padding: 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); text-align: center; }
+  .gallery-item img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <p id="adminName"></p>
+    <button class="nav-btn" onclick="showSection('uploads')">📸 User Uploads</button>
+    <button class="nav-btn" onclick="showSection('teaTypes')">🍵 Tea Types</button>
+    <button class="nav-btn" onclick="showSection('brewingTips')">☕ Brewing Tips</button>
+    <button class="nav-btn" onclick="showSection('contact')">📩 Contact Form Reviews</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Dynamic sections -->
+    <div id="uploadsSection">
+      <h1>📸 User Uploads</h1>
+      <div id="uploadsContainer" class="gallery"></div>
+    </div>
+
+    <div id="teaTypesSection" style="display:none;">
+  <h1>🍵 Manage Tea Types</h1>
+  <div id="teaTypesContainer"></div>
+  <div class="add-form">
+    <input type="text" id="newTeaTitle" placeholder="Tea Name">
+    <input type="text" id="newTeaImage" placeholder="Image URL">
+    <input type="file" id="newTeaFile" accept="image/*">
+    <button onclick="addTeaType()">Add Tea</button>
+  </div>
+</div>
+
+    <div id="brewingTipsSection" style="display:none;">
+      <h1>☕ Manage Brewing Tips</h1>
+      <div id="brewingTipsContainer"></div>
+      <div class="add-form">
+        <input type="text" id="newTipTitle" placeholder="Tea Type">
+        <textarea id="newTipList" placeholder="Enter tips (comma separated)"></textarea>
+        <button onclick="addBrewingTip()">Add Tips</button>
+      </div>
+    </div>
+
+    <div id="contactSection" style="display:none;">
+      <h1>📩 Contact Form Reviews</h1>
+      <div id="contactContainer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+const currentUser = localStorage.getItem("currentUser");
+
+// Redirect if not logged in or not admin
+if (isLoggedIn !== "true" || currentUser !== "admin") {
+  alert("Access denied! Admins only.");
+  window.location.href = "login.html";
+}
+
+document.getElementById("adminName").textContent = "Username: " + currentUser;
+
+// Section switching
+function showSection(section) {
+  const sections = ['uploads', 'teaTypes', 'brewingTips', 'contact'];
+  sections.forEach(s => {
+    document.getElementById(s + 'Section').style.display = (s === section) ? 'block' : 'none';
+  });
+}
+
+// === Uploads ===
+function loadUploads() {
+  const uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+  const container = document.getElementById("uploadsContainer");
+  container.innerHTML = "";
+  uploads.forEach((u,i) => {
+    const item = document.createElement("div");
+    item.className = "gallery-item card";
+    item.innerHTML = `
+      <p><b>${u.username}</b></p>
+      <img src="${u.image}">
+      <p>${u.caption}</p>
+      <p>Status: ${u.status}</p>
+      <button class="approve" onclick="updateUploadStatus(${i}, 'Approved')">Approve</button>
+      <button class="reject" onclick="updateUploadStatus(${i}, 'Rejected')">Reject</button>`;
+    container.appendChild(item);
+  });
+}
+
+function updateUploadStatus(i, status) {
+  let uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+  uploads[i].status = status;
+  localStorage.setItem("uploads", JSON.stringify(uploads));
+  loadUploads();
+
+  // Trigger storage event for other tabs if needed
+  localStorage.setItem("refreshGallery", Date.now());
+}
+
+// === Tea Types ===
+function loadTeaTypes() {
+  const teaTypes = JSON.parse(localStorage.getItem("teaTypes")) || [];
+  const container = document.getElementById("teaTypesContainer");
+  container.innerHTML = "";
+
+  if (teaTypes.length === 0) {
+    container.innerHTML = "<p>No dynamic tea types yet.</p>";
+    return;
+  }
+
+  teaTypes.forEach((t,i) => {
+    const item = document.createElement("div");
+    item.className = "card";
+    item.innerHTML = `
+      <p>${t.title}</p>
+      <img src="${t.image}">
+      <button class="edit" onclick="editTeaType(${i})">Edit</button>
+      <button class="delete" onclick="deleteTeaType(${i})">Delete</button>`;
+    container.appendChild(item);
+  });
+}
+
+function addTeaType() {
+  const title = document.getElementById("newTeaTitle").value.trim();
+  const imageUrl = document.getElementById("newTeaImage").value.trim();
+  const imageFile = document.getElementById("newTeaFile").files[0];
+
+  if (!title) {
+    alert("Please enter Tea Name.");
+    return;
+  }
+  if (!imageUrl && !imageFile) {
+    alert("Please provide either an image URL or upload a file.");
+    return;
+  }
+
+  let saveTeaType = (imgSrc) => {
+    let teaTypes = JSON.parse(localStorage.getItem("teaTypes")) || [];
+    teaTypes.push({ title, image: imgSrc });
+    localStorage.setItem("teaTypes", JSON.stringify(teaTypes));
+
+    document.getElementById("newTeaTitle").value = "";
+    document.getElementById("newTeaImage").value = "";
+    document.getElementById("newTeaFile").value = "";
+
+    loadTeaTypes();
+    localStorage.setItem("refreshTeaTypes", Date.now()); // notify homepage
+  };
+
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.onload = (e) => saveTeaType(e.target.result);
+    reader.readAsDataURL(imageFile);
+  } else {
+    saveTeaType(imageUrl);
+  }
+}
+
+function editTeaType(i) {
+  let teaTypes = JSON.parse(localStorage.getItem("teaTypes")) || [];
+  const title = prompt("Edit tea name:", teaTypes[i].title);
+  const img = prompt("Edit image URL (leave blank to keep existing):", teaTypes[i].image);
+
+  if (title) {
+    teaTypes[i].title = title;
+    if (img) teaTypes[i].image = img;
+    localStorage.setItem("teaTypes", JSON.stringify(teaTypes));
+    loadTeaTypes();
+    localStorage.setItem("refreshTeaTypes", Date.now());
+  }
+}
+
+function deleteTeaType(i) {
+  let teaTypes = JSON.parse(localStorage.getItem("teaTypes")) || [];
+  teaTypes.splice(i, 1);
+  localStorage.setItem("teaTypes", JSON.stringify(teaTypes));
+  loadTeaTypes();
+  localStorage.setItem("refreshTeaTypes", Date.now());
+}
+
+// === Brewing Tips ===
+function loadBrewingTips() {
+  const tips = JSON.parse(localStorage.getItem("brewingTips")) || [];
+  const container = document.getElementById("brewingTipsContainer");
+  container.innerHTML = "";
+  tips.forEach((t,i) => {
+    const item = document.createElement("div");
+    item.className = "card";
+    item.innerHTML = `
+      <p>${t.title}</p>
+      <ul>${t.tips.map(x=>`<li>${x}</li>`).join("")}</ul>
+      <button class="edit" onclick="editBrewingTip(${i})">Edit</button>
+      <button class="delete" onclick="deleteBrewingTip(${i})">Delete</button>`;
+    container.appendChild(item);
+  });
+}
+function addBrewingTip() {
+  let tips = JSON.parse(localStorage.getItem("brewingTips")) || [];
+  tips.push({ title: document.getElementById("newTipTitle").value, tips: document.getElementById("newTipList").value.split(",") });
+  localStorage.setItem("brewingTips", JSON.stringify(tips)); loadBrewingTips();
+}
+function editBrewingTip(i) {
+  let tips = JSON.parse(localStorage.getItem("brewingTips")) || [];
+  const title = prompt("Edit tea type:", tips[i].title);
+  const list = prompt("Edit tips:", tips[i].tips.join(", "));
+  if(title && list){ tips[i]={title, tips:list.split(",")}; localStorage.setItem("brewingTips", JSON.stringify(tips)); loadBrewingTips(); }
+}
+function deleteBrewingTip(i) {
+  let tips = JSON.parse(localStorage.getItem("brewingTips")) || [];
+  tips.splice(i,1); localStorage.setItem("brewingTips", JSON.stringify(tips)); loadBrewingTips();
+}
+
+// === Contact Form Reviews with Delete ===
+function loadContactReviews() {
+  const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+  const container = document.getElementById("contactContainer");
+  container.innerHTML = "";
+
+  if (contacts.length === 0) {
+    container.innerHTML = "<p>No contact submissions yet.</p>";
+    return;
+  }
+
+  contacts.forEach((c, i) => {
+    const item = document.createElement("div");
+    item.className = "card";
+    item.innerHTML = `
+      <p><b>${c.name}</b></p>
+      <p><b>Tea Name:</b> ${c.email}</p>
+      <p><b>Suggestion:</b> ${c.message}</p>
+      <p><small>${c.date}</small></p>
+      <button class="delete" onclick="deleteContactSubmission(${i})">Delete</button>
+    `;
+    container.appendChild(item);
+  });
+}
+
+// === Delete submission ===
+function deleteContactSubmission(index) {
+  let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+  if (!confirm("Are you sure you want to delete this submission?")) return;
+  contacts.splice(index, 1);
+  localStorage.setItem("contacts", JSON.stringify(contacts));
+  loadContactReviews();
+}
+
+// Load default section
+loadUploads(); loadTeaTypes(); loadBrewingTips(); loadContactReviews();
+showSection('uploads');
+
+function logout() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("currentUser");
+  window.location.href = "index.html";
+}
+// Refresh contact submissions if localStorage changes
+window.addEventListener('storage', (e) => {
+  if (e.key === 'contacts') {
+    loadContactReviews();
+  }
+});
+loadContactReviews();
+</script>
+</body>
+</html>

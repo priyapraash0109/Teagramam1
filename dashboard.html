@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+.container { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: #2c1a0e;
+  color: #fff;
+  padding: 20px;
+}
+.sidebar h2 { margin-top: 0; font-size: 22px; }
+.sidebar p { margin: 8px 0; font-size: 16px; }
+.sidebar button { margin-top: 20px; padding: 8px 16px; background: black; color: white; border: none; border-radius: 4px; cursor: pointer; }
+.sidebar button:hover { background: #444; }
+
+/* Main Content */
+.main { flex: 1; padding: 20px; }
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px); /* fixed 220px columns */
+  gap: 30px;
+  justify-content: center; /* center the entire gallery */
+}
+
+
+.gallery-item {
+  width: 220px; /* fixed width */
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;        /* fills card width */
+  height: 180px;      /* fixed height for uniformity */
+  object-fit: cover;  /* fills the box without distortion */
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.gallery-item p {
+  margin-top: 8px;
+  font-size: 14px;
+  font-style: italic;
+  color: #2c1a0e;
+}
+
+.status {
+  font-weight: bold;
+  margin-top: 4px;
+}
+.approved { color: green; }
+.pending { color: orange; }
+.rejected { color: red; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sidebar">
+    <h2>User Info</h2>
+    <p><b>Username:</b> <span id="username"></span></p>
+    <p><b>Status:</b> Logged In</p>
+      <!-- ✅ Upload button before Logout -->
+  <button onclick="goToUpload()">➕ Upload New Art</button>
+   <button onclick="goToMain()">🏠 Main Page</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <div class="main">
+    <h1>📸 My Uploads</h1>
+    <div class="gallery" id="userGallery"></div>
+  </div>
+</div>
+
+
+<script>
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const currentUser = localStorage.getItem("currentUser");
+
+  if (isLoggedIn !== "true" || currentUser === "admin") {
+    alert("Access denied! Users only.");
+    window.location.href = "login.html";
+  }
+
+  document.getElementById("username").textContent = currentUser;
+
+  function loadUserUploads() {
+  const username = localStorage.getItem("currentUser") || "guest";
+  const gallery = document.getElementById("userGallery");
+  let uploads = JSON.parse(localStorage.getItem("uploads")) || [];
+
+  // Only show this user's uploads
+  const userUploads = uploads.filter(u => u.username === username);
+
+  gallery.innerHTML = ""; // Clear previous items
+
+  userUploads.forEach(upload => {
+    const item = document.createElement("div");
+    item.classList.add("gallery-item");
+
+    // Add image
+    const img = document.createElement("img");
+    img.src = upload.image;
+    img.alt = "Tea Art";
+
+    // Add caption
+    const caption = document.createElement("p");
+    caption.textContent = upload.caption;
+
+    // Add status with proper class
+    const status = document.createElement("p");
+    status.textContent = `Status: ${upload.status}`;
+    status.classList.add("status", upload.status.toLowerCase());
+
+    // Append everything
+    item.appendChild(img);
+    item.appendChild(caption);
+    item.appendChild(status);
+
+    gallery.appendChild(item);
+  });
+}
+
+  loadUserUploads();
+
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+  }
+  // Refresh gallery every 2 seconds
+setInterval(loadUserUploads, 2000);
+function goToUpload() {
+  window.location.href = "upload.html";
+}
+function goToMain() {
+  window.location.href = "index.html";
+}
+</script>
+</body>
+</html>

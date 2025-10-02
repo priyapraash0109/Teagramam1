@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teagramam</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: #fff;
+      scroll-behavior: smooth; /* enables smooth scrolling */
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url("images/bc.jpg") no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    nav .logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #f5d76e;
+    }
+
+    /* Hero Content (centered) */
+    .hero-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: 1px solid white;
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: white;
+      color: black;
+    }
+
+    /* Tea Types Section */
+    .tea-types {
+      background: #fff;
+      padding: 80px 60px;
+    }
+
+    .tea-types h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #333;
+      text-align: left;
+    }
+
+    .tea-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+
+    .tea-box {
+      background: #f9f9f9;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .tea-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .tea-box img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tea-box h3 {
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+      color: #444;
+      background: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .tea-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .tea-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-content h1 {
+        font-size: 32px;
+      }
+      .hero-content p {
+        font-size: 16px;
+      }
+    }
+    /* Brewing Tips Section */
+.brewing {
+  background: #fff; /* Page background */
+  padding: 80px 60px;
+  color: black;
+}
+
+.brewing h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  text-align: left;
+  color: black;
+}
+
+.brewing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.brewing-box {
+  background: #CBAE87; /* Box background */
+  color: black; /* Text color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.brewing-box:hover {
+  transform: translateY(-5px);
+}
+
+.brewing-box h3 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.brewing-box ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .brewing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .brewing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Fun Facts Section */
+.funfacts {
+  background: #ffffff; /* Clean white background */
+  padding: 80px 20px;
+  color: #2C1A0E; /* Dark cocoa text */
+  text-align: center;
+}
+
+.funfacts h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+/* Inner white box removed since background is already white */
+.funfacts-container {
+  background: none; /* transparent, blends with white section */
+  padding: 20px 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Facts List */
+.funfacts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+/* Timeline */
+.funfacts-list::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background: #CBAE87; /* Warm golden-brown line */
+  transform: translateX(-50%);
+}
+
+/* Fact Box */
+.funfact {
+  position: relative;
+  background: #fffef6; /* Slight warm highlight */
+  border-left: 6px solid #CBAE87; /* Highlight edge */
+  border-radius: 12px;
+  padding: 25px;
+  margin: 20px 0;
+  width: 45%;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15); /* Stronger highlight */
+  font-size: 18px;
+  line-height: 1.6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.funfact:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+/* Left & Right */
+.funfact.left {
+  left: 0;
+  text-align: left;
+}
+
+.funfact.right {
+  left: 55%;
+  text-align: left;
+}
+
+/* Marker Emoji */
+.funfact::before {
+  content: "✨";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: #CBAE87; /* Matches highlight */
+}
+
+.funfact.left::before {
+  right: -40px;
+}
+
+.funfact.right::before {
+  left: -40px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .funfacts-list::before {
+    left: 20px;
+  }
+
+  .funfact {
+    width: 100%;
+    margin-left: 50px;
+  }
+
+  .funfact.left,
+  .funfact.right {
+    left: 0;
+  }
+
+  .funfact::before {
+    left: -35px;
+    right: auto;
+  }
+}
+/* --- Art Gallery Section --- */
+/* Art Gallery Section */
+.artgallery {
+  background: #c2a579;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.artgallery h1 {
+  font-family: Georgia, serif;
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #2c1a0e;
+}
+
+.artgallery p {
+  font-size: 14px;
+  color: #3b2a1d;
+  margin-bottom: 20px;
+}
+
+/* Container for all gallery items */
+.gallery-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Gallery grid */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* responsive */
+  gap: 20px;
+  max-height: 500px;     /* scrollable if too many items */
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Individual gallery item */
+.gallery-item {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Image inside gallery item */
+.gallery-item img {
+  width: 100%;
+  height: 200px;         /* consistent height */
+  object-fit: cover;     /* scale and crop properly */
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+/* Caption / quote */
+.gallery-item p {
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: #2c1a0e;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* Like button */
+.like-section {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #888;
+}
+
+.like-btn.liked {
+  color: red;
+}
+
+.form-section {
+  margin-top: 20px;
+  padding: 15px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-section input[type="file"] {
+  padding: 6px;
+}
+
+.form-section textarea {
+  padding: 6px;
+  width: 200px;
+  height: 40px;
+  resize: none;
+}
+
+.form-section button {
+  padding: 8px 20px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.form-section button:hover {
+  background: #444;
+}
+/* --- Contact Section --- */
+.contact {
+  background: #c2a579;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-container {
+  display: flex;
+  max-width: 1000px;
+  width: 100%;
+  background: #d2b48c;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.contact-image {
+  flex: 1;
+}
+
+.contact-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact-form {
+  flex: 1;
+  padding: 30px;
+  text-align: left;
+}
+
+.contact-form h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #4b2e15;
+  font-family: Georgia, serif;
+}
+
+.contact-form label {
+  display: block;
+  margin: 12px 0 5px;
+  font-size: 14px;
+  color: #3b2a1d;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 2px solid #3b2a1d;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 60px;
+}
+
+.contact-form button {
+  background: #5a3c1b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.contact-form button:hover {
+  background: #3d2a13;
+}
+/* --- Footer --- */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #4b2e15;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  z-index: 1000;
+}
+  </style>
+</head>
+
+<body>
+
+  <script>
+    // === Dynamic Tea Types Loader ===
+function loadTeaTypes() {
+  const container = document.getElementById("dynamicTeaTypes");
+  container.innerHTML = "";
+
+  const teaTypes = JSON.parse(localStorage.getItem("teaTypes")) || [];
+  teaTypes.forEach(t => {
+    const box = document.createElement("div");
+    box.className = "tea-box";
+    box.innerHTML = `
+      <img src="${t.image}" alt="${t.title}">
+      <h3>${t.title}</h3>
+    `;
+    container.appendChild(box);
+  });
+}
+
+// === Dynamic Brewing Tips Loader ===
+function loadBrewingTips() {
+  const container = document.getElementById("dynamicBrewingTips");
+  container.innerHTML = "";
+
+  const tips = JSON.parse(localStorage.getItem("brewingTips")) || [];
+  tips.forEach(t => {
+    const box = document.createElement("div");
+    box.className = "brewing-box";
+    box.innerHTML = `
+      <h3>${t.title}</h3>
+      <ul>${t.tips.map(x => `<li>${x}</li>`).join("")}</ul>
+    `;
+    container.appendChild(box);
+  });
+}
+
+// Load on page start
+document.addEventListener("DOMContentLoaded", () => {
+  loadTeaTypes();
+  loadBrewingTips();
+});
+
+// Auto Refresh if Admin Updates
+window.addEventListener("storage", (e) => {
+  if (e.key === "refreshTeaTypes") loadTeaTypes();
+  if (e.key === "refreshBrewingTips") loadBrewingTips();
+});
+  function addTeaArt() {
+  const fileInput = document.getElementById('imageUpload');
+  const caption = document.getElementById('caption').value;
+  const gallery = document.getElementById('gallery');
+
+  if (!fileInput.files.length || !caption.trim()) {
+    alert("Please upload an image and write a caption.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const newItem = document.createElement('div');
+    newItem.classList.add('gallery-item');
+    newItem.innerHTML = `
+      <img src="${e.target.result}" alt="Tea Art">
+      <p>${caption}</p>
+      <div class="like-section">
+        <button class="like-btn" onclick="toggleLike(this)">♡</button>
+        <span class="like-count">0</span>
+      </div>
+    `;
+    gallery.appendChild(newItem);
+  };
+  reader.readAsDataURL(fileInput.files[0]);
+
+  fileInput.value = "";
+  document.getElementById('caption').value = "";
+}
+
+function toggleLike(btn) {
+  const countSpan = btn.nextElementSibling;
+  let count = parseInt(countSpan.textContent);
+  if (btn.classList.contains("liked")) {
+    btn.classList.remove("liked");
+    count--;
+  } else {
+    btn.classList.add("liked");
+    count++;
+  }
+  countSpan.textContent = count;
+}
+
+function loadApprovedUploads() {
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = '';
+
+  let uploads = JSON.parse(localStorage.getItem('uploads')) || [];
+
+  uploads.filter(u => u.status === "Approved").forEach((u, index) => {
+    // Load likes count from localStorage (default 0)
+    let likes = JSON.parse(localStorage.getItem("likes")) || {};
+    let count = likes[u.image] || 0;
+
+    const div = document.createElement('div');
+    div.classList.add('gallery-item');
+    div.innerHTML = `
+      <img src="${u.image}" alt="Tea Art">
+      <p>${u.caption}</p>
+      <div class="like-section">
+        <button class="like-btn" onclick="toggleLike('${u.image}', this)">♡</button>
+        <span class="like-count">${count}</span>
+      </div>
+    `;
+    gallery.appendChild(div);
+  });
+}
+
+function toggleLike(imageKey, btn) {
+  let likes = JSON.parse(localStorage.getItem("likes")) || {};
+  let count = likes[imageKey] || 0;
+
+  if (btn.classList.contains("liked")) {
+    btn.classList.remove("liked");
+    count--;
+  } else {
+    btn.classList.add("liked");
+    count++;
+  }
+
+  likes[imageKey] = count;
+  localStorage.setItem("likes", JSON.stringify(likes));
+  btn.nextElementSibling.textContent = count;
+}
+
+// Load gallery on page load
+window.onload = loadApprovedUploads;
+
+// Refresh gallery if localStorage changes
+window.addEventListener('storage', (e) => {
+    if (e.key === 'uploads') loadApprovedUploads();
+});
+
+function handleAddYours() {
+  const currentUser = localStorage.getItem("currentUser");
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // strict check
+
+  if (isLoggedIn && currentUser && currentUser.toLowerCase() !== "admin") {
+    // ✅ Registered & logged-in user
+    window.location.href = "./upload.html";
+  } else if (!isLoggedIn || !currentUser) {
+    // 🚫 Not registered / not logged in
+    alert("Please login first.");
+    window.location.href = "./login.html";
+  } else if (currentUser && currentUser.toLowerCase() === "admin") {
+    // 🚫 Admins cannot upload
+    alert("Admins cannot upload art.");
+  }
+}
+
+
+// Contact form submission handler
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector('.contact-form form');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fullname = document.getElementById("fullname").value.trim();
+    const teaname = document.getElementById("teaname").value.trim();
+    const suggestion = document.getElementById("suggestion").value.trim();
+
+    if (!fullname || !teaname || !suggestion) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Get existing submissions
+    let submissions = JSON.parse(localStorage.getItem("contacts")) || [];
+
+    // Add new one
+    submissions.push({
+      name: fullname,
+      email: teaname, // you can store tea name as email for now
+      message: suggestion,
+      date: new Date().toLocaleString()
+    });
+
+    // Save to localStorage (admin dashboard reads 'contacts')
+    localStorage.setItem("contacts", JSON.stringify(submissions));
+
+    alert("Thanks for your suggestion!");
+    form.reset();
+  });
+});
+</script>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <nav>
+      <div class="logo">TEAGRAMAM</div>
+      <ul>
+        <li><a href="#tea-types">Tea Types</a></li>
+        <li><a href="#brewing">Brewing Tips</a></li>
+        <li><a href="#artgallery">ArtGallery</a></li>
+        <li><a href="#funfacts">Funfacts</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href=login.html>Login</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <h1>Welcome to Teagramam</h1>
+      <p>Discover tea’s rich flavors, brewing tips, and fun facts — one sip at a time.</p>
+      <!-- Link button to Tea Types -->
+      <a href="#tea-types" class="btn">Explore the Teas</a>
+    </div>
+  </section>
+
+  <!-- Tea Types Section -->
+  <section class="tea-types" id="tea-types">
+    <h2>Tea Types</h2>
+    <div class="tea-grid">
+      <div class="tea-box">
+        <img src="images/Black tea.jpeg" alt="Green Tea">
+        <h3>Black Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/Green tea.jpeg" alt="Black Tea">
+        <h3>Green Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/Herbal tea.jpeg" alt="Oolong Tea">
+        <h3>Herbal Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/Assam tea.jpeg" alt="White Tea">
+        <h3>Assam Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/Masala tea.jpeg" alt="Herbal Tea">
+        <h3>Masala Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/white tea.jpeg" alt="Chai Tea">
+        <h3>White Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/tulsi tea.jpeg" alt="Matcha">
+        <h3>Tulsi Tea</h3>
+      </div>
+      <div class="tea-box">
+        <img src="images/niligiri tea.jpeg" alt="Pu-erh Tea">
+        <h3>Nilgiri Tea</h3>
+      </div>
+       <div id="dynamicTeaTypes"></div>
+    </div>
+  </section>
+  <!-- Brewing Tips Section Page 1 -->
+<section class="brewing" id="brewing">
+  <h2>Brewing Tips</h2>
+  <div class="brewing-grid">
+    <div class="brewing-box">
+      <h3>🍂 Black Tea Brewing Tips</h3>
+      <ul>
+        <li>Use fresh boiling water (100°C / 212°F).</li>
+        <li>Add 1 tsp of tea leaves per cup.</li>
+        <li>Steep for 3–5 minutes (longer for stronger flavor).</li>
+        <li>Best enjoyed plain or with milk/sugar.</li>
+        <li>Avoid over-steeping to prevent bitterness.</li>
+      </ul>
+    </div>
+    <div class="brewing-box">
+      <h3>🍃 Green Tea Brewing Tips</h3>
+      <ul>
+        <li>Heat water to 75–85°C (not boiling).</li>
+        <li>Use 1 tsp of green tea leaves per cup.</li>
+        <li>Steep for 2–3 minutes only.</li>
+        <li>Use filtered or spring water for best taste.</li>
+        <li>Can be enjoyed plain or with lemon/honey.</li>
+      </ul>
+    </div>
+    <div class="brewing-box">
+      <h3>🌿 Herbal Tea Brewing Tips</h3>
+      <ul>
+        <li>Use boiling water (96–100°C).</li>
+        <li>Add 1–2 tsp of herbal blend per cup.</li>
+        <li>Steep for 5–7 minutes (longer for stronger infusion).</li>
+        <li>No caffeine – ideal for nighttime sipping.</li>
+        <li>Optional: Add honey or lemon for flavor.</li>
+      </ul>
+    </div>
+    <div class="brewing-box">
+      <h3>🍁 Assam Tea Brewing Tips</h3>
+      <ul>
+        <li>Use boiling water (100°C).</li>
+        <li>Add 1 tsp of Assam tea leaves per cup.</li>
+        <li>Steep for 4–5 minutes.</li>
+        <li>Strong and malty – pairs well with milk and sugar.</li>
+        <li>Perfect for chai or breakfast tea.</li>
+      </ul>
+    </div>
+    <div class="brewing-box">
+      <h3>🌶️ Masala Chai Brewing Tips</h3>
+      <ul>
+        <li>Boil 1 cup water + 1 cup milk together.</li>
+        <li>Add 1–1.5 tsp black tea leaves.</li>
+        <li>Add spices (cardamom, ginger, cloves, cinnamon).</li>
+        <li>Boil for 3–5 minutes, simmer on low flame.</li>
+        <li>Strain and sweeten with sugar/jaggery.</li>
+      </ul>
+    </div>
+    <div class="brewing-box">
+      <h3>❄️ White Tea Brewing Tips</h3>
+      <ul>
+        <li>Use water at 70–80°C (never boiling).</li>
+        <li>Add 1–2 tsp of white tea leaves per cup.</li>
+        <li>Steep for 4–5 minutes.</li>
+        <li>Delicate flavor – no milk or sugar needed.</li>
+        <li>Best served in glass/ceramic teaware.</li>
+      </ul>
+    </div>
+     <div class="brewing-box">
+      <h3>🌿 Tulsi Tea Brewing Tips</h3>
+      <ul>
+        <li>Use freshly boiled water (90–100°C).</li>
+        <li>Add 1–2 tsp of dried tulsi leaves or a tea bag.</li>
+        <li>Steep for 5–6 minutes.</li>
+        <li>Naturally caffeine-free and calming.</li>
+        <li>Drink warm, with honey or lemon if preferred.</li>
+      </ul>
+    </div>
+     <div class="brewing-box">
+      <h3>🌄 Nilgiri Tea Brewing Tips</h3>
+      <ul>
+        <li>Use boiling water (100°C).</li>
+        <li>Add 1 tsp of Nilgiri tea leaves per cup.</li>
+        <li>Steep for 3–4 minutes.</li>
+        <li>Known for fruity and floral notes.</li>
+        <li>Tastes great plain or with milk.</li>
+      </ul>
+    </div>
+      <!-- Dynamic Brewing Tips from Admin -->
+    <div id="dynamicBrewingTips"></div>
+  </div>
+</section>
+
+
+<!-- Art Gallery Section -->
+<section class="artgallery" id="artgallery">
+  <h1>Tea Through the Lens of Art</h1>
+  <p>Share, explore, and celebrate tea-inspired creativity.</p>
+
+<div class="gallery" id="gallery">
+  <!-- Demo images -->
+  <div class="gallery-item">
+    <img src="images/9.jpeg" alt="Tea 1">
+    <p>Tea is the magic key to the vault where my brain is kept.</p>
+    <div class="like-section">
+      <button class="like-btn" onclick="toggleLike(this)">♡</button>
+      <span class="like-count">0</span>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Add Yours Button -->
+  <div class="form-section">
+    <button onclick="handleAddYours()">➕ Add Yours</button>
+  </div>
+</section>
+
+
+
+</section>
+<!-- Contact Section -->
+<section class="contact" id="contact">
+  <div class="contact-container">
+    <!-- Left Image -->
+    <div class="contact-image">
+      <img src="images/Contact.jpeg" alt="Contact Tea">
+    </div>
+
+    <!-- Right Form -->
+    <div class="contact-form">
+      <h2>Contact us</h2>
+      <form>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="Enter your full name">
+
+        <label for="teaname">Tea Name</label>
+        <input type="text" id="teaname" placeholder="Enter your favorite tea">
+
+        <label for="suggestion">Suggestion</label>
+        <textarea id="suggestion" placeholder="Write your suggestion..."></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- Fun Facts Section -->
+<section class="funfacts" id="funfacts">
+  <h2>☕ Fun Facts About Tea</h2>
+
+  <!-- Inner Box -->
+  <div class="funfacts-container">
+    <ul class="funfacts-list">
+      <li class="funfact left">🍵 Tea is the <b>second most consumed beverage</b> in the world — only water beats it!</li>
+      <li class="funfact right">😅 The word "<b>chai</b>" means "tea" in Hindi — so “chai tea” is actually <i>“tea tea”</i>!</li>
+      <li class="funfact left">🌱 <b>White tea</b> is the least processed and comes from the youngest leaves and buds.</li>
+      <li class="funfact right">😂 Spill tea on your keyboard and you’ve made true <b>“Java” script</b>!</li>
+      <li class="funfact left">🌸 <b>Nilgiri tea</b> from South India’s Blue Mountains has a floral aroma prized in blends.</li>
+      <li class="funfact right">🌏 <b>Assam, India</b> is the world’s largest tea-growing region, producing strong malty teas.</li>
+      <li class="funfact left">🏺 <b>Green tea</b> was first used as medicine in China over <b>4,000 years ago</b>.</li>
+      <li class="funfact right">🥛 Adding milk to tea started in Europe, not India — yet milk tea is now a <b>South Asian classic</b>.</li>
+    </ul>
+  </div>
+</section>
+<!-- Footer -->
+<footer class="footer">
+  <p>© 2025 Teagramam | All Rights Reserved</p>
+</footer>
+</body>
+</html>
