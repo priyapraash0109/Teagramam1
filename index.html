@@ -557,6 +557,37 @@
 <body>
 
   <script>
+    fetch("teaData.json")
+  .then(response => response.json())
+  .then(data => {
+    // --- Tea Types Section ---
+    const teaGrid = document.querySelector(".tea-grid");
+    teaGrid.innerHTML = ""; // Clear existing content
+    data.teaTypes.forEach(tea => {
+      const teaBox = document.createElement("div");
+      teaBox.className = "tea-box";
+      teaBox.innerHTML = `
+        <img src="${tea.image}" alt="${tea.name}">
+        <h3>${tea.name}</h3>
+      `;
+      teaGrid.appendChild(teaBox);
+    });
+
+    // --- Brewing Tips Section ---
+    const brewingGrid = document.querySelector(".brewing-grid");
+    brewingGrid.innerHTML = "";
+    data.brewingTips.forEach(tip => {
+      const tipBox = document.createElement("div");
+      tipBox.className = "brewing-box";
+      tipBox.innerHTML = `
+        <h3>${tip.icon} ${tip.name} Brewing Tips</h3>
+        <ul>${tip.tips.map(t => `<li>${t}</li>`).join("")}</ul>
+      `;
+      brewingGrid.appendChild(tipBox);
+    });
+  })
+  .catch(error => console.error("Error loading tea data:", error));
+
     // === Dynamic Tea Types Loader ===
 function loadTeaTypes() {
   const container = document.getElementById("dynamicTeaTypes");
@@ -771,132 +802,22 @@ document.addEventListener("DOMContentLoaded", () => {
   </section>
 
   <!-- Tea Types Section -->
-  <section class="tea-types" id="tea-types">
-    <h2>Tea Types</h2>
-    <div class="tea-grid">
-      <div class="tea-box">
-        <img src="images/Black tea.jpeg" alt="Green Tea">
-        <h3>Black Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/Green tea.jpeg" alt="Black Tea">
-        <h3>Green Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/Herbal tea.jpeg" alt="Oolong Tea">
-        <h3>Herbal Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/Assam tea.jpeg" alt="White Tea">
-        <h3>Assam Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/Masala tea.jpeg" alt="Herbal Tea">
-        <h3>Masala Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/white tea.jpeg" alt="Chai Tea">
-        <h3>White Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/tulsi tea.jpeg" alt="Matcha">
-        <h3>Tulsi Tea</h3>
-      </div>
-      <div class="tea-box">
-        <img src="images/niligiri tea.jpeg" alt="Pu-erh Tea">
-        <h3>Nilgiri Tea</h3>
-      </div>
-       <div id="dynamicTeaTypes"></div>
-    </div>
+ <section class="tea-types" id="tea-types">
+  <h2>Tea Types</h2>
+  <div class="tea-grid"></div>
+
+  <div id="dynamicTeaTypes"></div>
   </section>
+  
   <!-- Brewing Tips Section Page 1 -->
 <section class="brewing" id="brewing">
   <h2>Brewing Tips</h2>
-  <div class="brewing-grid">
-    <div class="brewing-box">
-      <h3>🍂 Black Tea Brewing Tips</h3>
-      <ul>
-        <li>Use fresh boiling water (100°C / 212°F).</li>
-        <li>Add 1 tsp of tea leaves per cup.</li>
-        <li>Steep for 3–5 minutes (longer for stronger flavor).</li>
-        <li>Best enjoyed plain or with milk/sugar.</li>
-        <li>Avoid over-steeping to prevent bitterness.</li>
-      </ul>
-    </div>
-    <div class="brewing-box">
-      <h3>🍃 Green Tea Brewing Tips</h3>
-      <ul>
-        <li>Heat water to 75–85°C (not boiling).</li>
-        <li>Use 1 tsp of green tea leaves per cup.</li>
-        <li>Steep for 2–3 minutes only.</li>
-        <li>Use filtered or spring water for best taste.</li>
-        <li>Can be enjoyed plain or with lemon/honey.</li>
-      </ul>
-    </div>
-    <div class="brewing-box">
-      <h3>🌿 Herbal Tea Brewing Tips</h3>
-      <ul>
-        <li>Use boiling water (96–100°C).</li>
-        <li>Add 1–2 tsp of herbal blend per cup.</li>
-        <li>Steep for 5–7 minutes (longer for stronger infusion).</li>
-        <li>No caffeine – ideal for nighttime sipping.</li>
-        <li>Optional: Add honey or lemon for flavor.</li>
-      </ul>
-    </div>
-    <div class="brewing-box">
-      <h3>🍁 Assam Tea Brewing Tips</h3>
-      <ul>
-        <li>Use boiling water (100°C).</li>
-        <li>Add 1 tsp of Assam tea leaves per cup.</li>
-        <li>Steep for 4–5 minutes.</li>
-        <li>Strong and malty – pairs well with milk and sugar.</li>
-        <li>Perfect for chai or breakfast tea.</li>
-      </ul>
-    </div>
-    <div class="brewing-box">
-      <h3>🌶️ Masala Chai Brewing Tips</h3>
-      <ul>
-        <li>Boil 1 cup water + 1 cup milk together.</li>
-        <li>Add 1–1.5 tsp black tea leaves.</li>
-        <li>Add spices (cardamom, ginger, cloves, cinnamon).</li>
-        <li>Boil for 3–5 minutes, simmer on low flame.</li>
-        <li>Strain and sweeten with sugar/jaggery.</li>
-      </ul>
-    </div>
-    <div class="brewing-box">
-      <h3>❄️ White Tea Brewing Tips</h3>
-      <ul>
-        <li>Use water at 70–80°C (never boiling).</li>
-        <li>Add 1–2 tsp of white tea leaves per cup.</li>
-        <li>Steep for 4–5 minutes.</li>
-        <li>Delicate flavor – no milk or sugar needed.</li>
-        <li>Best served in glass/ceramic teaware.</li>
-      </ul>
-    </div>
-     <div class="brewing-box">
-      <h3>🌿 Tulsi Tea Brewing Tips</h3>
-      <ul>
-        <li>Use freshly boiled water (90–100°C).</li>
-        <li>Add 1–2 tsp of dried tulsi leaves or a tea bag.</li>
-        <li>Steep for 5–6 minutes.</li>
-        <li>Naturally caffeine-free and calming.</li>
-        <li>Drink warm, with honey or lemon if preferred.</li>
-      </ul>
-    </div>
-     <div class="brewing-box">
-      <h3>🌄 Nilgiri Tea Brewing Tips</h3>
-      <ul>
-        <li>Use boiling water (100°C).</li>
-        <li>Add 1 tsp of Nilgiri tea leaves per cup.</li>
-        <li>Steep for 3–4 minutes.</li>
-        <li>Known for fruity and floral notes.</li>
-        <li>Tastes great plain or with milk.</li>
-      </ul>
-    </div>
-      <!-- Dynamic Brewing Tips from Admin -->
-    <div id="dynamicBrewingTips"></div>
-  </div>
-</section>
+  <div class="brewing-grid"></div>
+
+  <!-- Dynamic Brewing Tips from Admin -->
+  <div id="dynamicBrewingTips"></div>
+  </section>
+
 
 
 <!-- Art Gallery Section -->
