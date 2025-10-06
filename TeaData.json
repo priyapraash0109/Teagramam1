@@ -1,0 +1,103 @@
+{
+  "teaTypes": [
+    { "name": "Black Tea", "image": "images/Black tea.jpeg" },
+    { "name": "Green Tea", "image": "images/Green tea.jpeg" },
+    { "name": "Herbal Tea", "image": "images/Herbal tea.jpeg" },
+    { "name": "Assam Tea", "image": "images/Assam tea.jpeg" },
+    { "name": "Masala Tea", "image": "images/Masala tea.jpeg" },
+    { "name": "White Tea", "image": "images/white tea.jpeg" },
+    { "name": "Tulsi Tea", "image": "images/tulsi tea.jpeg" },
+    { "name": "Nilgiri Tea", "image": "images/niligiri tea.jpeg" }
+  ],
+
+  "brewingTips": [
+    {
+      "name": "Black Tea",
+      "icon": "🍂",
+      "tips": [
+        "Use fresh boiling water (100°C / 212°F).",
+        "Add 1 tsp of tea leaves per cup.",
+        "Steep for 3–5 minutes (longer for stronger flavor).",
+        "Best enjoyed plain or with milk/sugar.",
+        "Avoid over-steeping to prevent bitterness."
+      ]
+    },
+    {
+      "name": "Green Tea",
+      "icon": "🍃",
+      "tips": [
+        "Heat water to 75–85°C (not boiling).",
+        "Use 1 tsp of green tea leaves per cup.",
+        "Steep for 2–3 minutes only.",
+        "Use filtered or spring water for best taste.",
+        "Can be enjoyed plain or with lemon/honey."
+      ]
+    },
+    {
+      "name": "Herbal Tea",
+      "icon": "🌿",
+      "tips": [
+        "Use boiling water (96–100°C).",
+        "Add 1–2 tsp of herbal blend per cup.",
+        "Steep for 5–7 minutes (longer for stronger infusion).",
+        "No caffeine – ideal for nighttime sipping.",
+        "Optional: Add honey or lemon for flavor."
+      ]
+    },
+    {
+      "name": "Assam Tea",
+      "icon": "🍁",
+      "tips": [
+        "Use boiling water (100°C).",
+        "Add 1 tsp of Assam tea leaves per cup.",
+        "Steep for 4–5 minutes.",
+        "Strong and malty – pairs well with milk and sugar.",
+        "Perfect for chai or breakfast tea."
+      ]
+    },
+    {
+      "name": "Masala Chai",
+      "icon": "🌶️",
+      "tips": [
+        "Boil 1 cup water + 1 cup milk together.",
+        "Add 1–1.5 tsp black tea leaves.",
+        "Add spices (cardamom, ginger, cloves, cinnamon).",
+        "Boil for 3–5 minutes, simmer on low flame.",
+        "Strain and sweeten with sugar/jaggery."
+      ]
+    },
+    {
+      "name": "White Tea",
+      "icon": "❄️",
+      "tips": [
+        "Use water at 70–80°C (never boiling).",
+        "Add 1–2 tsp of white tea leaves per cup.",
+        "Steep for 4–5 minutes.",
+        "Delicate flavor – no milk or sugar needed.",
+        "Best served in glass/ceramic teaware."
+      ]
+    },
+    {
+      "name": "Tulsi Tea",
+      "icon": "🌿",
+      "tips": [
+        "Use freshly boiled water (90–100°C).",
+        "Add 1–2 tsp of dried tulsi leaves or a tea bag.",
+        "Steep for 5–6 minutes.",
+        "Naturally caffeine-free and calming.",
+        "Drink warm, with honey or lemon if preferred."
+      ]
+    },
+    {
+      "name": "Nilgiri Tea",
+      "icon": "🌄",
+      "tips": [
+        "Use boiling water (100°C).",
+        "Add 1 tsp of Nilgiri tea leaves per cup.",
+        "Steep for 3–4 minutes.",
+        "Known for fruity and floral notes.",
+        "Tastes great plain or with milk."
+      ]
+    }
+  ]
+}
